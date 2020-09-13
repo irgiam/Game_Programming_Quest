@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     CharacterController controller;
     Animator animator;
+    public VirtualController virtualController;
     public LayerMask groundLayer;
     public float gravity = 10f;
     public float moveSpeed = 3f;
+    public Weapon weapon = null;
+    public Transform weaponParent;
+    public Armor armor = null;
 
     float horizontalMove = 0;
     float verticalMove = 0;
@@ -17,20 +23,29 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         controller = this.GetComponent<CharacterController>();
         animator = this.GetComponent<Animator>();
     }
 
     private void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal");
-        verticalMove = Input.GetAxisRaw("Vertical");
+        horizontalMove = Mathf.Clamp((Input.GetAxis("Horizontal") + virtualController.Horizontal()), -1, 1);
+        verticalMove = Mathf.Clamp((Input.GetAxis("Vertical") + virtualController.Vertical()), -1, 1);
 
         isGrounded = Physics.CheckSphere(this.transform.position, 0.1f, groundLayer);
         GravityHandler();
         HandleMovement();
         float movement = Mathf.Clamp((Mathf.Abs(horizontalMove) + Mathf.Abs(verticalMove)), 0, 1);
         animator.SetFloat("Speed", (movement * moveSpeed));
+
+        if (weapon == null)
+        {
+            animator.SetBool("HoldingWeapon", false);
+        } else
+        {
+            animator.SetBool("HoldingWeapon", true);
+        }
     }
 
     void GravityHandler()
