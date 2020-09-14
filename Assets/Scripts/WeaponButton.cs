@@ -22,10 +22,9 @@ public class WeaponButton : MonoBehaviour
     void HandleClick()
     {
         InventoryManager.instance.ResetWeapon();
-        Weapon equiped = (Weapon)Instantiate(thisWeapon);
-        PlayerController.instance.weapon = equiped;
-        equiped.transform.SetParent(PlayerController.instance.weaponParent, false);
-        equiped.transform.localPosition = new Vector3 (-0.1f, -0.1f, 0.45f);
-        equiped.gameObject.SetActive(true);
+        PlayerController.instance.weapon = thisWeapon;
+        InventoryManager.instance.equipedWeaponStat.text = "Equiped: " + thisWeapon.weaponName;
+        thisWeapon.transform.localPosition = new Vector3 (-0.1f, -0.1f, 0.45f);
+        thisWeapon.gameObject.SetActive(true);
     }
 }

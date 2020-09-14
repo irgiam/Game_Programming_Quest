@@ -5,8 +5,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
     public List<Weapon> weaponPrefabs;
     public WeaponButton weaponButtonPrefab;
+
+    public Armor armorPrefab;
+    public ArmorButton armorButtonPrefab;
+
+    public Item itemPrefab;
+    public ItemButton itemButtonPrefab;
+
 
     private void Awake()
     {
