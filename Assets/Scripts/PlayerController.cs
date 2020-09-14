@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
     Animator animator;
     public VirtualController virtualController;
+    public Slider healthBar;
     public LayerMask groundLayer;
     public float gravity = 10f;
     public float moveSpeed = 3f;
@@ -46,6 +48,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("HoldingWeapon", true);
         }
+
+        if (weapon!=null && Input.GetKeyDown(KeyCode.Space)) //Mouse0
+        {
+            Fire();
+        }
     }
 
     void GravityHandler()
@@ -71,5 +78,11 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
             controller.Move(direction * moveSpeed * Time.deltaTime);
         }
+    }
+
+    public void Fire()
+    {
+        weapon.ShootBullet();
+        animator.SetTrigger("Fire");
     }
 }

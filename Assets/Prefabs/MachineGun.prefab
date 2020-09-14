@@ -131,6 +131,7 @@ MonoBehaviour:
   damagePoint: 2
   bulletSize: 25
   reloadTime: 3
+  shootPower: 2000
 --- !u!1 &3431359047332338607
 GameObject:
   m_ObjectHideFlags: 0

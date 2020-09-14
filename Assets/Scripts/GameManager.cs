@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     public List<Weapon> weaponPrefabs;
     public WeaponButton weaponButtonPrefab;
+    public Bullet bulletPrefab;
 
     public Armor armorPrefab;
     public ArmorButton armorButtonPrefab;

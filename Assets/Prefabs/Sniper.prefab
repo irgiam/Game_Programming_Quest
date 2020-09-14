@@ -371,3 +371,4 @@ MonoBehaviour:
   damagePoint: 10
   bulletSize: 6
   reloadTime: 5
+  shootPower: 2000
