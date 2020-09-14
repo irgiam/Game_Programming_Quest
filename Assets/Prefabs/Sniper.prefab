@@ -372,3 +372,4 @@ MonoBehaviour:
   bulletSize: 6
   reloadTime: 5
   shootPower: 2000
+  shootRange: 20

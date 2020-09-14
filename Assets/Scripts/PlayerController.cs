@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public VirtualController virtualController;
     public Slider healthBar;
     public LayerMask groundLayer;
+    public LayerMask enemyLayer;
     public float gravity = 10f;
     public float moveSpeed = 3f;
     public Weapon weapon = null;
@@ -49,7 +50,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("HoldingWeapon", true);
         }
 
-        if (weapon!=null && Input.GetKeyDown(KeyCode.Space)) //Mouse0
+        if (weapon!=null && Input.GetKeyDown(KeyCode.Space) && (movement < 0.1f)) //Mouse0
         {
             Fire();
         }
@@ -82,7 +83,28 @@ public class PlayerController : MonoBehaviour
 
     public void Fire()
     {
+        if (weapon == null)
+        {
+            return;
+        }
+        EnemyController target = CheckAround();
+        if (target != null)
+        {
+            this.transform.LookAt(target.transform);
+        }
         weapon.ShootBullet();
         animator.SetTrigger("Fire");
+    }
+
+    EnemyController CheckAround()
+    {
+        EnemyController enemy = null;
+        float distance = weapon.shootRange;
+        Collider[] enemies = Physics.OverlapSphere(this.transform.position, weapon.shootRange, enemyLayer);
+        foreach (Collider target in enemies)
+        {
+            enemy = target.GetComponent<EnemyController>();
+        }
+        return enemy;
     }
 }

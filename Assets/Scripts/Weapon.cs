@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour
     public int bulletSize;
     public float reloadTime;
     public float shootPower;
+    public float shootRange;
 
     public void ShootBullet()
     {
@@ -16,6 +17,6 @@ public class Weapon : MonoBehaviour
         bullet.damage = damagePoint;
         bullet.transform.localPosition = this.transform.position;
         bullet.gameObject.SetActive(true);
-        bullet.GetComponent<Rigidbody>().AddRelativeForce(this.transform.forward * shootPower);
+        bullet.GetComponent<Rigidbody>().AddRelativeForce(PlayerController.instance.transform.forward * shootPower);
     }
 }
