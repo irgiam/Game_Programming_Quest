@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         EnemyController target = CheckAround();
         if (target != null)
         {
-            this.transform.LookAt(target.transform);
+            transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
         }
         weapon.ShootBullet();
         animator.SetTrigger("Fire");
