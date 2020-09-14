@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("HoldingWeapon", true);
         }
 
-        if (weapon!=null && Input.GetKeyDown(KeyCode.Space) && (movement < 0.1f)) //Mouse0
+        if (Input.GetKeyDown(KeyCode.Space) && (movement < 0.1f)) //Mouse0
         {
             Fire();
         }
@@ -103,7 +103,12 @@ public class PlayerController : MonoBehaviour
         Collider[] enemies = Physics.OverlapSphere(this.transform.position, weapon.shootRange, enemyLayer);
         foreach (Collider target in enemies)
         {
-            enemy = target.GetComponent<EnemyController>();
+            float temp = Vector3.Distance(target.transform.position, this.transform.position);
+            if (temp < distance)
+            {
+                enemy = target.GetComponent<EnemyController>();
+                distance = temp;
+            }
         }
         return enemy;
     }
