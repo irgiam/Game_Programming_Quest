@@ -13,11 +13,16 @@ public class PlayerController : MonoBehaviour
     public Slider healthBar;
     public LayerMask groundLayer;
     public LayerMask enemyLayer;
+
     public float gravity = 10f;
     public float moveSpeed = 3f;
+
     public Weapon weapon = null;
     public Transform weaponParent;
     public Armor armor = null;
+
+    public float maxHealth;
+    public float health;
 
     float horizontalMove = 0;
     float verticalMove = 0;
@@ -29,6 +34,11 @@ public class PlayerController : MonoBehaviour
         instance = this;
         controller = this.GetComponent<CharacterController>();
         animator = this.GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        SetHealth();
     }
 
     private void Update()
@@ -111,5 +121,18 @@ public class PlayerController : MonoBehaviour
             }
         }
         return enemy;
+    }
+
+    void SetHealth()
+    {
+        health = maxHealth;
+        healthBar.maxValue = maxHealth;
+        healthBar.value = health;
+    }
+
+    public void ReceiveDamage(float damage)
+    {
+        health -= damage;
+        healthBar.value = health;
     }
 }

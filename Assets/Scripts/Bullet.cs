@@ -6,8 +6,6 @@ public class Bullet : MonoBehaviour
 {
     Rigidbody rb;
     public float damage;
-    public LayerMask enemyLayer;
-    public LayerMask playerLayer;
 
     private void Update()
     {
@@ -19,6 +17,11 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             collision.gameObject.GetComponent<EnemyController>().ReceiveDamage(damage);
+            Destroy(this.gameObject);
+        }
+        else if (collision.gameObject.tag == "Player")
+        {
+            PlayerController.instance.ReceiveDamage(damage);
             Destroy(this.gameObject);
         }
     }
