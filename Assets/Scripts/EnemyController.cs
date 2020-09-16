@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour
 {
     public Transform shootProjectile;
     public GameObject canvas;
-    public Transform cam;
+    Camera cam;
 
     float maxHealth = 10f;
     public float health;
@@ -23,6 +23,7 @@ public class EnemyController : MonoBehaviour
     {
         SetHealth();
         fireRateBar.maxValue = attackRate;
+        cam = Camera.main;
     }
 
     private void Update()
@@ -30,7 +31,7 @@ public class EnemyController : MonoBehaviour
         nextAttackTime += Time.deltaTime;
         fireRateBar.value = nextAttackTime;
         float distance = Vector3.Distance(this.transform.position, PlayerController.instance.transform.position);
-        if (distance < 10f)
+        if (distance < 15f)
         {
             //this.transform.LookAt(PlayerController.instance.transform);
             transform.LookAt(new Vector3(PlayerController.instance.transform.position.x, transform.position.y, PlayerController.instance.transform.position.z));
@@ -44,7 +45,7 @@ public class EnemyController : MonoBehaviour
 
     private void LateUpdate()
     {
-        canvas.transform.LookAt(cam);
+        canvas.transform.LookAt(cam.transform);
     }
 
     void SetHealth()
@@ -58,7 +59,7 @@ public class EnemyController : MonoBehaviour
     {
         health -= damage;
         healthbar.value = health;
-        if (health < 0)
+        if (health <= 0)
         {
             this.gameObject.SetActive(false); // sementara tdk di destroy
         }

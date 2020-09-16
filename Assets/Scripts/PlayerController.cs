@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     Vector3 velocity = new Vector3();
 
+    float attackRate = 3f;
+    float nextAttackTime = 0f;
+
     private void Awake()
     {
         instance = this;
@@ -45,11 +48,19 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        horizontalMove = Mathf.Clamp((Input.GetAxis("Horizontal") + virtualController.Horizontal()), -1, 1);
-        verticalMove = Mathf.Clamp((Input.GetAxis("Vertical") + virtualController.Vertical()), -1, 1);
-
         isGrounded = Physics.CheckSphere(this.transform.position, 0.1f, groundLayer);
         GravityHandler();
+        if (Time.time >= nextAttackTime)
+        {
+            horizontalMove = Mathf.Clamp((Input.GetAxis("Horizontal") + virtualController.Horizontal()), -1, 1);
+            verticalMove = Mathf.Clamp((Input.GetAxis("Vertical") + virtualController.Vertical()), -1, 1);
+            
+        }
+        else
+        {
+            horizontalMove = 0;
+            verticalMove = 0;
+        }
         HandleMovement();
         float movement = Mathf.Clamp((Mathf.Abs(horizontalMove) + Mathf.Abs(verticalMove)), 0, 1);
         animator.SetFloat("Speed", (movement * moveSpeed));
@@ -62,7 +73,8 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("HoldingWeapon", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && (movement < 0.1f)) //Mouse0
+        //if (Input.GetKeyDown(KeyCode.Space) && (movement < 0.1f)) //Mouse0
+        if (Input.GetKeyDown(KeyCode.Space)) //Mouse0
         {
             Fire();
         }
@@ -95,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
     public void Fire()
     {
-        if (weapon == null)
+        if (weapon == null || Time.time < nextAttackTime)
         {
             return;
         }
@@ -105,6 +117,7 @@ public class PlayerController : MonoBehaviour
             transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
         }
         weapon.ShootBullet();
+        nextAttackTime = Time.time + 2f / attackRate;
         animator.SetTrigger("Fire");
     }
 

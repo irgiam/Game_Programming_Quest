@@ -14,15 +14,19 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        switch (collision.gameObject.tag)
         {
-            collision.gameObject.GetComponent<EnemyController>().ReceiveDamage(damage);
-            Destroy(this.gameObject);
-        }
-        else if (collision.gameObject.tag == "Player")
-        {
-            PlayerController.instance.ReceiveDamage(damage);
-            Destroy(this.gameObject);
+            case "Enemy":
+                collision.gameObject.GetComponent<EnemyController>().ReceiveDamage(damage);
+                Destroy(this.gameObject);
+                break;
+            case "Player":
+                PlayerController.instance.ReceiveDamage(damage);
+                Destroy(this.gameObject);
+                break;
+            case "Wall":
+                Destroy(this.gameObject);
+                break;
         }
     }
 }

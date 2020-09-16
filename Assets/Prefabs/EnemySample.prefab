@@ -597,7 +597,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootProjectile: {fileID: 533721398}
   canvas: {fileID: 284818889732023719}
-  cam: {fileID: 0}
   health: 0
   healthbar: {fileID: 284818888396838138}
   fireRateBar: {fileID: 7441162161314750510}
