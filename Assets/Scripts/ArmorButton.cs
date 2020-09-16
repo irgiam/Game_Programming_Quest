@@ -23,6 +23,7 @@ public class ArmorButton : MonoBehaviour
     {
         InventoryManager.instance.ResetArmor();
         PlayerController.instance.armor = thisArmor;
+        InventoryManager.instance.SetArmor(thisArmor);
         InventoryManager.instance.equipedArmorStat.text = "Equiped: " + armorName.text;
         thisArmor.gameObject.SetActive(true);
     }

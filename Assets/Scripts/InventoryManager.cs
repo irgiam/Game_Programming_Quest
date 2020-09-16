@@ -34,8 +34,8 @@ public class InventoryManager : MonoBehaviour
         }
 
         //sample sementara
-        GenerateArmor("Vest 1", 100);
-        GenerateArmor("Vest 2", 90);
+        GenerateArmor("Vest 1", 10);
+        GenerateArmor("Vest 2", 7);
 
         //sample sementara
         GenerateItem("Steel", "for crafting");
@@ -81,6 +81,7 @@ public class InventoryManager : MonoBehaviour
         newArmor.name = name; //game object name
         newArmor.armorName = name;
         newArmor.maxResistenace = _maxResistance;
+        newArmor.resistance = Mathf.Clamp(_maxResistance, 0, _maxResistance);
         newArmor.gameObject.SetActive(false);
         newArmor.transform.SetParent(PlayerController.instance.transform, false);
         armors.Add(newArmor);
@@ -92,9 +93,18 @@ public class InventoryManager : MonoBehaviour
         button.gameObject.SetActive(true);
     }
 
+    public void SetArmor(Armor _armor)
+    {
+        PlayerController.instance.armorBar.maxValue = _armor.maxResistenace;
+        PlayerController.instance.armorBar.value = _armor.resistance;
+        PlayerController.instance.armorStat.text = _armor.resistance.ToString();
+    }
+
     public void ResetArmor()
     {
         PlayerController.instance.armor = null;
+        PlayerController.instance.armorBar.value = 0;
+        PlayerController.instance.armorStat.text = "0";
         foreach (Armor armor in armors)
         {
             armor.gameObject.SetActive(false);

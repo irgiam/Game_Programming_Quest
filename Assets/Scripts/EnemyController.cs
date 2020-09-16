@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
+    public Transform shootProjectile;
+    public GameObject canvas;
+    public Transform cam;
+
     float maxHealth = 10f;
     public float health;
     public Slider healthbar;
-    public Transform shootProjectile;
 
-    float attackRate = 3f;
+    public Slider fireRateBar;
+    float attackRate = 5f;
     float nextAttackTime = 0f;
 
     public float damage;
@@ -18,21 +22,29 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         SetHealth();
+        fireRateBar.maxValue = attackRate;
     }
 
     private void Update()
     {
+        nextAttackTime += Time.deltaTime;
+        fireRateBar.value = nextAttackTime;
         float distance = Vector3.Distance(this.transform.position, PlayerController.instance.transform.position);
         if (distance < 10f)
         {
             //this.transform.LookAt(PlayerController.instance.transform);
             transform.LookAt(new Vector3(PlayerController.instance.transform.position.x, transform.position.y, PlayerController.instance.transform.position.z));
-            if (Time.time >= nextAttackTime)
+            if (nextAttackTime >= attackRate)
             {
                 ShootBullet();
-                nextAttackTime = Time.time + attackRate;
+                nextAttackTime = 0;
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+        canvas.transform.LookAt(cam);
     }
 
     void SetHealth()

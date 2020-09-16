@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public Weapon weapon = null;
     public Transform weaponParent;
     public Armor armor = null;
+    public Slider armorBar;
+    public Text armorStat;
 
     public float maxHealth;
     public float health;
@@ -132,7 +134,29 @@ public class PlayerController : MonoBehaviour
 
     public void ReceiveDamage(float damage)
     {
-        health -= damage;
-        healthBar.value = health;
+        if (armor != null && armor.resistance > 0)
+        {
+            armor.resistance -= damage;
+            if (armor.resistance < 0)
+            {
+                float temp = Mathf.Abs(0 - armor.resistance);
+                health -= temp;
+                healthBar.value = health;
+                armor.resistance = 0;
+            }
+            InventoryManager.instance.SetArmor(armor);
+        }
+        else
+        {
+            health -= damage;
+            healthBar.value = health;
+        }
+
+        if (health <= 0)
+        {
+            //gameover sementara
+            GameManager.instance.inGame.enabled = false;
+            GameManager.instance.gameOver.enabled = true;
+        }
     }
 }

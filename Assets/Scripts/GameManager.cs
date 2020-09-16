@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public Canvas inGame;
+    public Canvas gameOver;
+
     public List<Weapon> weaponPrefabs;
     public WeaponButton weaponButtonPrefab;
     public Bullet bulletPrefab;
